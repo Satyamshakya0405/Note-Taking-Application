@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Notes</string>
+    <string name="priority">Priority:</string>
+    <string name="description">Description</string>
+    <string name="_1">1</string>
+    <string name="save">Save</string>
+    <string name="search">Search</string>
 </resources>

@@ -19,4 +19,7 @@ interface NoteDao {
         @Query("SELECT * FROM note_table where title LIKE:searchQuery")
         fun searchDatabase(searchQuery:String):LiveData<List<Note>>
 
+        @Query("SELECT * FROM note_table where note_id=:id")
+        suspend  fun getNote(id:Int):Note
+
 }

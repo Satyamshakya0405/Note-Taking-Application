@@ -51,11 +51,9 @@ class MainActivity : AppCompatActivity(),NoteAdapter.OnItemClickListener,SearchV
         // VIEW MODEL
      mViewModel = ViewModelProvider.AndroidViewModelFactory(application).create(NoteViewModel::class.java)
 
-    mViewModel.getAllNote().observe(this, {
-//        Log.d("hello", "changed")
+    mViewModel.getAllNote().observe(this) {
         adapter.submitList(it)
-
-    })
+    }
 
         val mIth = ItemTouchHelper(
             object : ItemTouchHelper.SimpleCallback(
@@ -115,7 +113,8 @@ class MainActivity : AppCompatActivity(),NoteAdapter.OnItemClickListener,SearchV
             val title=data.getStringExtra("EXTRA_TITLE")
             val description= data.getStringExtra("EXTRA_DESCRIPTION")
             val priority=data.getIntExtra("EXTRA_PRIORITY", 1)
-                val note:Note=Note(0, title, description, priority)
+            val imagePath=data.getStringExtra("EXTRA_IMAGE_PATH")
+                val note:Note=Note(0, title, description, priority,imagePath)
                 mViewModel.addNote(note)
                 Toast.makeText(this, "Note Saved! ", Toast.LENGTH_SHORT).show()
         }
@@ -131,7 +130,8 @@ class MainActivity : AppCompatActivity(),NoteAdapter.OnItemClickListener,SearchV
                 val title=data.getStringExtra("EXTRA_TITLE")
                 val description= data.getStringExtra("EXTRA_DESCRIPTION")
                 val priority=data.getIntExtra("EXTRA_PRIORITY", 1)
-                val note:Note=Note(id, title, description, priority)
+            val imagePath=data.getStringExtra("EXTRA_IMAGE_PATH")
+            val note:Note=Note(id, title, description, priority,imagePath)
                 mViewModel.updateNote(note)
                 Toast.makeText(this, "Note Updated! ", Toast.LENGTH_SHORT).show()
         }
@@ -149,7 +149,10 @@ class MainActivity : AppCompatActivity(),NoteAdapter.OnItemClickListener,SearchV
         intent.putExtra("EXTRA_DESCRIPTION",note.description)
         intent.putExtra("EXTRA_PRIORITY",note.priority)
         intent.putExtra("EXTRA_ID",note.id)
-        Log.d("this","${note.id}")
+        intent.putExtra("EXTRA_IMAGE_PATH",note.imagePath)
+        if(note.imagePath!=null)
+        Log.d("SATTU",note.imagePath)
+        else   Log.d("SATTU","null")
         startActivityForResult(intent,EDIT_NOTE_REQUEST)
     }
 

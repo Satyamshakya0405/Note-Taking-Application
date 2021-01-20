@@ -1,36 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#F5F5DC"
-    >
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    android:padding="5dp"
-    app:cardCornerRadius="5dp"
+    android:layout_margin="5dp"
+    android:background="@drawable/background_singlenote"
     app:cardElevation="2dp"
-
     >
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:paddingTop="1dp"
+            android:paddingStart="1dp"
+            android:paddingEnd="1dp"
+            android:background="@drawable/image_background"
+            android:id="@+id/image_view_image"
+            android:visibility="gone"
+            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <TextView
             android:id="@+id/text_view_priority"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:text="1"
+            android:padding="5dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorWhite"
+            android:text="@string/_1"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
         <TextView
             android:id="@+id/text_view_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Title"
+            android:padding="5dp"
+            android:textStyle="bold"
+            android:paddingStart="10dp"
+            android:textColor="@color/colorWhite"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:maxLines="1"
             android:layout_toStartOf="@id/text_view_priority"
@@ -40,10 +54,14 @@
             android:id="@+id/text_view_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:padding="5dp"
+            android:paddingStart="10dp"
+            android:textColor="@color/colorWhite"
             android:layout_below="@id/text_view_title"
             android:text="Description"/>
+        </RelativeLayout>
 
 
-    </RelativeLayout>
-</androidx.cardview.widget.CardView>
-    </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

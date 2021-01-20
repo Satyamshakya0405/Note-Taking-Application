@@ -17,6 +17,11 @@ class NoteRepository (private val noteDao: NoteDao){
         return noteDao.searchDatabase(query)
     }
 
+     suspend fun  getNote(id:Int):Note
+     {
+         return noteDao.getNote(id)
+     }
+
     public suspend fun addNote(note:Note)
     {
         noteDao.insert(note)
