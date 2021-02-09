@@ -133,12 +133,9 @@ class MainActivity : AppCompatActivity(),NoteAdapter.OnItemClickListener,SearchV
             val imagePath=data.getStringExtra("EXTRA_IMAGE_PATH")
             val note:Note=Note(id, title, description, priority,imagePath)
                 mViewModel.updateNote(note)
-                Toast.makeText(this, "Note Updated! ", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this, "Note Updated! ", Toast.LENGTH_SHORT).show()
         }
-        else
-        {
-            Toast.makeText(this, "Note not Saved!", Toast.LENGTH_SHORT).show()
-        }
+
 }
 
 

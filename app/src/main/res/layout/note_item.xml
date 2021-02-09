@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:background="@drawable/background_singlenote"
-    app:cardElevation="2dp"
     >
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,17 +23,23 @@
             android:visibility="gone"
             />
         <RelativeLayout
+            android:id="@+id/colorLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:padding="1dp"
+            >
         <TextView
             android:id="@+id/text_view_priority"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_alignParentEnd="true"
             android:padding="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
             android:textStyle="bold"
             android:textColor="@color/colorWhite"
-            android:text="@string/_1"
+
+            android:gravity="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
         <TextView
             android:id="@+id/text_view_title"

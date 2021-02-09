@@ -5,4 +5,10 @@
     <string name="_1">1</string>
     <string name="save">Save</string>
     <string name="search">Search</string>
+    <string name="title">Title</string>
+    <string-array name="PriorityArray">
+        <item> Low</item>
+        <item> Medium</item>
+        <item> High</item>
+    </string-array>
 </resources>

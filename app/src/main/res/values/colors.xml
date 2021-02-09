@@ -2,10 +2,14 @@
 <resources>
     <color name="colorPrimary">#292929</color>
     <color name="colorPrimaryDark">#292929</color>
-    <color name="colorAccent">#FDEB3B</color>
+    <color name="colorAccent">#FFFFFF</color>
     <color name="mainActivityColor">#292929</color>
     <color name="DefaultNoteColor">#333333</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorIcons">#EAE8E8</color>
     <color name="colorDescription">#CECECE</color>
+    <color name="color0">#4CAF50</color>
+    <color name="color1">#FDBE3B</color>
+    <color name="color2">#FF4842</color>
+
 </resources>

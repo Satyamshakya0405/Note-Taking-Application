@@ -1,18 +1,16 @@
 package com.example.notes
 
+import android.content.Context
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notes.Database.Note
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.note_item.view.*
-import java.io.File
 
 class NoteAdapter(
     private val listner:OnItemClickListener
@@ -37,11 +35,21 @@ class NoteAdapter(
          return NoteHolder(view)
     }
 
+
     override fun onBindViewHolder(holder: NoteHolder, position: Int) {
             val note=getItem(position)
-        holder.textview_priority.text=note.priority.toString()
+//        holder.textview_priority.text=(note.priority+1).toString()
+
         holder.textview_title.text=note.title.toString()
         holder.textview_description.text=note.description.toString()
+        val priority=note.priority
+        if(priority==0) holder.textview_priority.setBackgroundResource(R.drawable.background_textview1)
+        else if(priority==1)  holder.textview_priority.setBackgroundResource(R.drawable.background_textview2)
+        else  holder.textview_priority.setBackgroundResource(R.drawable.background_textview3)
+
+
+
+//        holder.textview_priority.setBackgroundDrawable(ContextCompat.getDrawable(context,R.drawable.background_textview1))
         if(note.imagePath!=null) {
             holder.imageview_path.visibility=View.VISIBLE
 //            holder.imageview_path.setImageURI(Uri.parse(note.imagePath))
@@ -62,6 +70,7 @@ class NoteAdapter(
          val textview_title = itemView.text_view_title
          val textview_description = itemView.text_view_description
           val imageview_path=itemView.image_view_image
+          val layout=itemView.colorLayout
 
           init {
               itemView.setOnClickListener(this)

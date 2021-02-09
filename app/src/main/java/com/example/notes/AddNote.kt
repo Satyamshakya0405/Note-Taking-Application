@@ -16,6 +16,8 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -38,27 +40,30 @@ const val REQUEST_PERMISSION_CODE = 0;
 const val REQUEST_IMAGE_SELECT_CODE = 1;
 const val REQUEST_TAKE_PHOTO_CODE = 2;
 
-class AddNote : AppCompatActivity() {
+class AddNote : AppCompatActivity() , AdapterView.OnItemSelectedListener{
 
     private lateinit var photoFile: File
     private lateinit var imageFile: File
     private var imagePath:String?=null
     private lateinit var addNoteViewModel:AddNoteViewModel
+    private lateinit var spinnerValue:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_note)
 
         addNoteViewModel = ViewModelProvider.AndroidViewModelFactory(application).create(AddNoteViewModel::class.java)
-        number_picker.minValue = 1
-        number_picker.maxValue = 10
         if (intent.hasExtra("EXTRA_ID")) {
             supportActionBar?.title = "Edit Note"
             et_title.text =
                 Editable.Factory.getInstance().newEditable(intent.getStringExtra("EXTRA_TITLE"))
             et_description.text = Editable.Factory.getInstance()
                 .newEditable(intent.getStringExtra("EXTRA_DESCRIPTION"))
-            number_picker.value = intent.getIntExtra("EXTRA_PRIORITY", 1)
+//            number_picker.value = intent.getIntExtra("EXTRA_PRIORITY", 1)
+            val priorityPosition= intent.getIntExtra("EXTRA_PRIORITY", 0)
+            spinner_priority.post {
+                spinner_priority.setSelection(priorityPosition)
+            }
             if(intent.getStringExtra("EXTRA_IMAGE_PATH")!=null)
             {
                 action_image.visibility=View.VISIBLE
@@ -71,7 +76,16 @@ class AddNote : AppCompatActivity() {
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
 
-
+        // Spinner
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.PriorityArray,
+           R.layout.custom_spinner
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner_priority.adapter = adapter
+        }
+        spinner_priority.onItemSelectedListener=this
         take_photo.setOnClickListener {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             photoFile = getPhotoFile()
@@ -112,6 +126,7 @@ class AddNote : AppCompatActivity() {
             val shareIntent = Intent.createChooser(sendIntent, null)
             startActivity(shareIntent)
         }
+
 
     }
 
@@ -181,6 +196,11 @@ override fun onOptionsItemSelected(item: MenuItem): Boolean {
             savenote()
             true
         }
+        android.R.id.home->{
+            onBackPressed()
+//            Toast.makeText(this,"BACK PRESSED",Toast.LENGTH_SHORT).show()
+            true
+        }
         else -> super.onOptionsItemSelected(item)
 
     }
@@ -189,7 +209,14 @@ override fun onOptionsItemSelected(item: MenuItem): Boolean {
 private fun savenote() {
     val title = et_title.text.toString()
     val description = et_description.text.toString()
-    val priority = number_picker.value
+//    val priority=number_picker.value
+    var priority = 1
+    if(spinnerValue=="Low")
+     priority = 0
+    else if(spinnerValue=="Medium")
+        priority=1
+    else priority=2;
+
     if (title.trim().isEmpty() || description.trim().isEmpty()) {
         Toast.makeText(this, "Please Enter Title or Description", Toast.LENGTH_SHORT).show()
         return
@@ -215,6 +242,42 @@ private fun savenote() {
     finish()
 }
 
+    override fun onBackPressed() {
+        val title = et_title.text.toString()
+        val description = et_description.text.toString()
+//    val priority=number_picker.value
+        var priority = 1
+        if(spinnerValue=="Low")
+            priority = 0
+        else if(spinnerValue=="Medium")
+            priority=1
+        else priority=2;
+
+        if (title.trim().isEmpty() || description.trim().isEmpty()) {
+            Toast.makeText(this, "Empty Note Discarded", Toast.LENGTH_SHORT).show()
+            finish()
+        }
+//        val note=Note(0,title,description ,priority)
+        val intent = Intent()
+        intent.putExtra("EXTRA_TITLE", title)
+        intent.putExtra("EXTRA_DESCRIPTION", description)
+        intent.putExtra("EXTRA_PRIORITY", priority)
+
+        val id = getIntent().getIntExtra("EXTRA_ID", -1)
+        Log.d("this", id.toString())
+        if (id != -1) {
+            intent.putExtra("EXTRA_ID", id)
+        }
+        if(imagePath==null&&getIntent().getStringExtra("EXTRA_IMAGE_PATH")!=null)
+            imagePath=getIntent().getStringExtra("EXTRA_IMAGE_PATH")
+        intent.putExtra("EXTRA_IMAGE_PATH",imagePath)
+
+        if(imagePath!=null) Log.d("SATTU",imagePath)
+        else Log.d("SATTU","NULL IMAGE PATH")
+        setResult(RESULT_OK, intent)
+        finish()
+//        super.onBackPressed()
+    }
 private fun getPhotoFile(): File {
     val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
     val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
@@ -247,5 +310,16 @@ private fun selectImage() {
         startActivityForResult(intent, REQUEST_IMAGE_SELECT_CODE)
     }
 }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
+        val selectedItem=parent!!.getItemAtPosition(position)
+        spinnerValue=selectedItem.toString()
+        Toast.makeText(this,"Selected Item is $selectedItem",Toast.LENGTH_SHORT)
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+
+    }
 }
 

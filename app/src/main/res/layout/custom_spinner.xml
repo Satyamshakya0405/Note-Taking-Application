@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<TextView android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/tv_priority"
+    android:text="Priority"
+    android:textSize="20sp"
+    android:padding="10dp"
+    android:textColor="@color/colorWhite"
+    android:background="@color/DefaultNoteColor"
+    xmlns:android="http://schemas.android.com/apk/res/android" />
